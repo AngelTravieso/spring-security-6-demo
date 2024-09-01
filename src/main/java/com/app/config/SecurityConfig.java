@@ -34,6 +34,41 @@ public class SecurityConfig {
 //    AuthenticationConfiguration authenticationConfiguration;
 
     // Configurar security filter chain
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+//        /**
+//         * Si no hay condiciones aca la peticion pasara sin problemas
+//         */
+//
+//        // Esto trabaja con el patron builder
+//        return httpSecurity
+//                // deshabilitando esta proteccion, no se necesita
+//                .csrf(crsf -> crsf.disable())
+//                // Se usa cuando nos logueamos con usuario y password, con tokens es diferente
+//                .httpBasic(Customizer.withDefaults())
+//                // Trabajar sesiones sin estado
+//                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                .authorizeHttpRequests(http -> {
+//                    // Si hace match con alguna de estas URL
+//
+//                    // Configurar los endpoints publicos
+//                    http.requestMatchers(HttpMethod.GET,  "/auth/hello").permitAll();
+//
+//                    // Configurar los endpoints privados
+//                    // Tiene que tener autorizacion de lectura
+//                    http.requestMatchers(HttpMethod.GET, "/auth/hello-secured").hasAuthority("CREATE");
+//
+//                    // Cualquier otro request diferente a estos se denegara el acceso, se puede usar denyAll() o authenticated()
+//
+//                    // Configurar el resto de endpoints - NO ESPECIFICADOS
+//                    // denyAll(): Si no especifico en los endpoins publicos o privados rechazara todo lo que no se especifique, el denyAll es mas seguro, mas restrictivo (recomendado)
+//                    // authenticated(): Cualquier otro debo estar autenticado
+//                    http.anyRequest().authenticated();
+//
+//                })
+//                .build();
+//    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         /**
@@ -48,24 +83,6 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 // Trabajar sesiones sin estado
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(http -> {
-                    // Si hace match con alguna de estas URL
-
-                    // Configurar los endpoints publicos
-                    http.requestMatchers(HttpMethod.GET,  "/auth/hello").permitAll();
-
-                    // Configurar los endpoints privados
-                    // Tiene que tener autorizacion de lectura
-                    http.requestMatchers(HttpMethod.GET, "/auth/hello-secured").hasAuthority("CREATE");
-
-                    // Cualquier otro request diferente a estos se denegara el acceso, se puede usar denyAll() o authenticated()
-
-                    // Configurar el resto de endpoints - NO ESPECIFICADOS
-                    // denyAll(): Si no especifico en los endpoins publicos o privados rechazara todo lo que no se especifique, el denyAll es mas seguro, mas restrictivo (recomendado)
-                    // authenticated(): Cualquier otro debo estar autenticado
-                    http.anyRequest().authenticated();
-
-                })
                 .build();
     }
 
